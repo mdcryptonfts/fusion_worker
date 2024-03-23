@@ -2,7 +2,7 @@ const config = require('./config.json');
 const { submitAddLiquidityTx } = require('./add_liquidity');
 const { claimgbmvote } = require('./claimgbmvote');
 const { claimrefund } = require('./claimrefund');
-
+const { clearexpired } = require('./clearexpired');
 
 const runApp = async () => {
 
@@ -29,7 +29,14 @@ const runApp = async () => {
 	/** @claimrefund
 	 *  every 1 hour try claiming any refunds from the POL contract
 	 */
-	setInterval(() => claimrefund(), config.one_minute );		
+	setInterval(() => claimrefund(), config.one_minute * 60 );	
+
+	/** @clearexpired
+	 * 	deletes/unstakes expired CPU rentals from POL contract
+	 *  needs to run every minute to make sure all expired orders are cleared
+	 * 	in the 5 minute window
+	 */
+	setInterval(() => clearexpired(), config.one_minute );			
 
     process.on('SIGINT', () => {
         process.exit();
