@@ -27,6 +27,7 @@ const clearexpired = async () => {
             permission: config.permission.permission_name,
           }],
           data: {
+            limit: 1000
           }
         }]
       }, {
