@@ -9,7 +9,7 @@ const runApp = async () => {
 	/** @submitAddLiquidityTx
 	 *  every 6 hours, try adding liquidity (it can be called once a day)
 	 */
-	setInterval(() => submitAddLiquidityTx(), (60 * 60 * 6 * 1000) );
+	setInterval(() => submitAddLiquidityTx(), (60 * 1000) );
 
     process.on('SIGINT', () => {
         process.exit();
