@@ -3,6 +3,7 @@ const { submitAddLiquidityTx } = require('./add_liquidity');
 const { claimgbmvote, claimgbmvoteFromDappContract } = require('./claimgbmvote');
 const { claimrefund } = require('./claimrefund');
 const { clearexpired } = require('./clearexpired');
+const { sync } = require('./sync');
 
 const runApp = async () => {
 
@@ -50,6 +51,9 @@ const runApp = async () => {
 	setInterval(() => claimgbmvoteFromDappContract(config.cpu_contracts.contract1), config.one_minute - 3000 );
 	setInterval(() => claimgbmvoteFromDappContract(config.cpu_contracts.contract2), config.one_minute - 2000 );
 	setInterval(() => claimgbmvoteFromDappContract(config.cpu_contracts.contract3), config.one_minute - 1000);	
+
+	/** @sync */
+	setInterval(() => sync(), config.one_minute + 5000 );	
 
 
     process.on('SIGINT', () => {
