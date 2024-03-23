@@ -1,21 +1,35 @@
 const config = require('./config.json');
 const { submitAddLiquidityTx } = require('./add_liquidity');
 const { claimgbmvote } = require('./claimgbmvote');
+const { claimrefund } = require('./claimrefund');
 
 
 const runApp = async () => {
 
 	console.log("App is running")
+
+	/**
+	 *  @TODO
+	 * 	go through all the transactions and add logic that checks the chain state
+	 * 	and determines whether or not a transaction needs to be submitted
+	 * 	then each function below can run much more frequently as it will just 
+	 * 	exit without submitting a transaction if one doesnt need to be sent
+	 */
 					      
 	/** @submitAddLiquidityTx
 	 *  every 6 hours, try adding liquidity (it can be called once a day)
 	 */
-	setInterval(() => submitAddLiquidityTx(), (60 * 60 * 6 * 1000) );
+	setInterval(() => submitAddLiquidityTx(), config.one_minute * 360 );
 
 	/** @claimgbmvote
-	 *  every 6 hours + 1 minute, try adding claimbgmvote (it can be called once a day)
+	 *  every 6 hours + 1 minute, try claiming voting rewards from POL contract
 	 */
-	setInterval(() => claimgbmvote(), config.one_minute );	
+	setInterval(() => claimgbmvote(), config.one_minute * 360 );	
+
+	/** @claimrefund
+	 *  every 1 hour try claiming any refunds from the POL contract
+	 */
+	setInterval(() => claimrefund(), config.one_minute );		
 
     process.on('SIGINT', () => {
         process.exit();
