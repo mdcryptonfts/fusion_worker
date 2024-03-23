@@ -16,5 +16,6 @@
   },
   "transaction_timeout":5000,
   "expire_seconds":90,
-  "blocks_behind":3
+  "blocks_behind":3,
+  "one_minute":60000
 }

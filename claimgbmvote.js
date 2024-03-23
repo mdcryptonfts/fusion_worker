@@ -2,7 +2,7 @@ const config = require('./config.json');
 const { Session } = require('@wharfkit/session');
 const { WalletPluginPrivateKey } = require('@wharfkit/wallet-plugin-privatekey')
 
-const claimbgmvote = async () => {
+const claimgbmvote = async () => {
   let success = false;
 
   for (let endpoint of config.chain_api.endpoints) {
@@ -21,7 +21,7 @@ const claimbgmvote = async () => {
       const apiCallPromise = session.transact({
         actions: [{
           account: config.contracts.pol_contract,
-          name: 'claimbgmvote',
+          name: 'claimgbmvote',
           authorization: [{
             actor: config.permission.wallet,
             permission: config.permission.permission_name,
@@ -36,11 +36,11 @@ const claimbgmvote = async () => {
 
       const result = await Promise.race([apiCallPromise, new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), config.transaction_timeout))]);
 
-      console.log("\n\nclaimbgmvote submission successful");
+      console.log("\n\nclaimgbmvote submission successful");
       success = true;
       return success;
     } catch (e) {
-      console.log(`error submitting claimbgmvote: ${e}`);
+      console.log(`error submitting claimgbmvote: ${e}`);
     }
   }
 
@@ -48,5 +48,5 @@ const claimbgmvote = async () => {
 };
 
 module.exports = {
-  claimbgmvote
+  claimgbmvote
 };

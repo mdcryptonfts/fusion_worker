@@ -1,6 +1,6 @@
 const config = require('./config.json');
 const { submitAddLiquidityTx } = require('./add_liquidity');
-const { claimbgmvote } = require('./claimbgmvote');
+const { claimgbmvote } = require('./claimgbmvote');
 
 
 const runApp = async () => {
@@ -15,7 +15,7 @@ const runApp = async () => {
 	/** @claimgbmvote
 	 *  every 6 hours + 1 minute, try adding claimbgmvote (it can be called once a day)
 	 */
-	setInterval(() => claimbgmvote(), (60 * 1000) + 1 );	
+	setInterval(() => claimgbmvote(), config.one_minute );	
 
     process.on('SIGINT', () => {
         process.exit();
