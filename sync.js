@@ -37,11 +37,11 @@ const sync = async () => {
 
       const result = await Promise.race([apiCallPromise, new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), config.transaction_timeout))]);
 
-      console.log("\n\nclaimrefund submission successful");
+      console.log("\n\nsync submission successful");
       success = true;
       return success;
     } catch (e) {
-      console.log(`error submitting claimrefund: ${e}`);
+      console.log(`error submitting sync: ${e}`);
     }
   }
 

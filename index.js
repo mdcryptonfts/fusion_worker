@@ -53,7 +53,7 @@ const runApp = async () => {
 	setInterval(() => claimgbmvoteFromDappContract(config.cpu_contracts.contract3), config.one_minute - 1000);	
 
 	/** @sync */
-	setInterval(() => sync(), config.one_minute + 5000 );	
+	setInterval(() => sync(), config.one_minute - 5000 );	
 
 
     process.on('SIGINT', () => {
