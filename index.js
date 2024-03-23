@@ -1,6 +1,6 @@
 const config = require('./config.json');
 const { submitAddLiquidityTx } = require('./add_liquidity');
-const { claimgbmvote } = require('./claimgbmvote');
+const { claimgbmvote, claimgbmvoteFromDappContract } = require('./claimgbmvote');
 const { claimrefund } = require('./claimrefund');
 const { clearexpired } = require('./clearexpired');
 
