@@ -33,7 +33,7 @@ const runApp = async () => {
 	/** @claimrefund
 	 *  every 1 hour try claiming any refunds from the POL contract
 	 */
-	setInterval(() => claimrefund(), config.one_minute * 60 );	
+	setInterval(() => claimrefund(config.contracts.pol_contract), config.one_minute * 60 );	
 
 	/** @clearexpired
 	 * 	deletes/unstakes expired CPU rentals from POL contract
@@ -51,6 +51,11 @@ const runApp = async () => {
 	setInterval(() => claimgbmvoteFromDappContract(config.cpu_contracts.contract1), config.one_minute - 3000 );
 	setInterval(() => claimgbmvoteFromDappContract(config.cpu_contracts.contract2), config.one_minute - 2000 );
 	setInterval(() => claimgbmvoteFromDappContract(config.cpu_contracts.contract3), config.one_minute - 1000);	
+
+	/** @claimrefunds
+	 *  every 1 hour try claiming any refunds from the cpu contracts (via dapp contract)
+	 */
+	setInterval(() => claimrefund(config.contracts.dapp_contract), config.one_minute * 60 );	
 
 	/** @sync */
 	setInterval(() => sync(), config.one_minute - 5000 );	

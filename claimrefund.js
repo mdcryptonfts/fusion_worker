@@ -2,8 +2,15 @@ const config = require('./config.json');
 const { Session } = require('@wharfkit/session');
 const { WalletPluginPrivateKey } = require('@wharfkit/wallet-plugin-privatekey')
 
-const claimrefund = async () => {
+const claimrefund = async (contract) => {
   let success = false;
+
+  let actionName;
+  if(contract == config.contracts.pol_contract){
+    actionName = "claimrefund";
+  } else if(contract == config.contracts.dapp_contract){
+    actionName = "claimrefunds";
+  }
 
   for (let endpoint of config.chain_api.endpoints) {
     try {
@@ -20,8 +27,8 @@ const claimrefund = async () => {
 
       const apiCallPromise = session.transact({
         actions: [{
-          account: config.contracts.pol_contract,
-          name: 'claimrefund',
+          account: contract,
+          name: actionName,
           authorization: [{
             actor: config.permission.wallet,
             permission: config.permission.permission_name,
