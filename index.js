@@ -57,6 +57,11 @@ const runApp = async () => {
 	 */
 	setInterval(() => claimrefund(config.contracts.dapp_contract), config.one_minute * 60 );	
 
+	/** @distribute
+	 *  distribute any pending revenue to stakers/POL/ecosystem etc
+	 */
+	setInterval(() => distribute(), config.one_minute * 60 );	
+
 	/** @sync */
 	setInterval(() => sync(), config.one_minute - 5000 );	
 
