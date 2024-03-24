@@ -67,10 +67,25 @@ const runApp = async () => {
 	/** @reallocate 
 	 * 	when necessary, move unclaimed funds from redemption pool back to rental pool
 	 */
-	setInterval(() => transact(config.contracts.dapp_contract, "reallocate", {}), config.one_minute * 10 );		
+	setInterval(() => transact(config.contracts.dapp_contract, "reallocate", {}), config.one_minute * 10 );	
+
+	/** @stakeallcpu 
+	 * 	
+	 */
+	setInterval(() => transact(config.contracts.dapp_contract, "stakeallcpu", {}), config.one_minute * 5 );	
 
 	/** @sync */
 	setInterval(() => sync(), config.one_minute - 5000 );	
+
+	/** @unstakecpu 
+	 * 	
+	 */
+	setInterval(() => transact(config.contracts.dapp_contract, "unstakecpu", {}), config.one_minute * 2 );
+
+	/** @updatetop21 
+	 * 	
+	 */
+	setInterval(() => transact(config.contracts.dapp_contract, "updatetop21", {}), config.one_minute * 240 );		
 
 
     process.on('SIGINT', () => {
