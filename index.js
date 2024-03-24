@@ -3,6 +3,7 @@ const { submitAddLiquidityTx } = require('./add_liquidity');
 const { claimgbmvote, claimgbmvoteFromDappContract } = require('./claimgbmvote');
 const { claimrefund } = require('./claimrefund');
 const { clearexpired } = require('./clearexpired');
+const { distribute } = require('./distribute');
 const { sync } = require('./sync');
 const { transact } = require('./transact');
 
