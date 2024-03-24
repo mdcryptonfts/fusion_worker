@@ -4,6 +4,7 @@ const { claimgbmvote, claimgbmvoteFromDappContract } = require('./claimgbmvote')
 const { claimrefund } = require('./claimrefund');
 const { clearexpired } = require('./clearexpired');
 const { sync } = require('./sync');
+const { transact } = require('./transact');
 
 const runApp = async () => {
 
@@ -61,6 +62,11 @@ const runApp = async () => {
 	 *  distribute any pending revenue to stakers/POL/ecosystem etc
 	 */
 	setInterval(() => distribute(), config.one_minute * 60 );	
+
+	/** @reallocate 
+	 * 	when necessary, move unclaimed funds from redemption pool back to rental pool
+	 */
+	setInterval(() => transact(config.contracts.dapp_contract, "reallocate", {}), config.one_minute * 10 );		
 
 	/** @sync */
 	setInterval(() => sync(), config.one_minute - 5000 );	
