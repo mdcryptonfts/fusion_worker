@@ -14,6 +14,11 @@
     "dapp_contract":"dapp.fusion",
     "pol_contract":"pol.fusion"
   },
+  "cpu_contracts":{
+    "contract1":"cpu1.fusion",
+    "contract2":"cpu2.fusion",
+    "contract3":"cpu3.fusion"
+  },  
   "transaction_timeout":5000,
   "expire_seconds":90,
   "blocks_behind":3,

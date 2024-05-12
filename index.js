@@ -77,6 +77,9 @@ const runApp = async () => {
 	/** @sync */
 	setInterval(() => sync(), config.one_minute - 5000 );	
 
+	/** @synctvl */
+	setInterval(() => transact(config.contracts.dapp_contract, "synctvl", {"caller": config.permission.wallet}), ( config.one_minute * 15 ) + 10000 );	
+
 	/** @unstakecpu 
 	 * 	
 	 */
