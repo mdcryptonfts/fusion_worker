@@ -69,6 +69,11 @@ const runApp = async () => {
 	 */
 	setInterval(() => transact(config.contracts.dapp_contract, "reallocate", {}), config.one_minute * 10 );	
 
+	/** @rebalance 
+	 * 	rebalances the lswax/wax buckets in the pol contract 
+	 */
+	setInterval(() => transact(config.contracts.pol_contract, "rebalance", {}), config.one_minute * 230 );		
+
 	/** @stakeallcpu 
 	 * 	
 	 */
