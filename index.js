@@ -88,7 +88,7 @@ const runApp = async () => {
 	/** @unstakecpu 
 	 * 	
 	 */
-	setInterval(() => transact(config.contracts.dapp_contract, "unstakecpu", {}), config.one_minute * 2 );
+	setInterval(() => transact(config.contracts.dapp_contract, "unstakecpu", {"epoch_id": 0, "limit": 0}), config.one_minute * 2 );
 
 	/** @updatetop21 
 	 * 	
