@@ -1,10 +1,10 @@
 const config = require('./config.json');
-const { submitAddLiquidityTx } = require('./add_liquidity');
 const { claimgbmvote, claimgbmvoteFromDappContract } = require('./claimgbmvote');
 const { claimrefund } = require('./claimrefund');
 const { clearexpired } = require('./clearexpired');
-const { distribute } = require('./distribute');
 const { sync } = require('./sync');
+const { createfarms } = require('./createfarms');
+const { compound_lswax } = require('./compound_lswax');
 const { transact } = require('./transact');
 
 const runApp = async () => {
@@ -21,11 +21,6 @@ const runApp = async () => {
 					   
 
 	/** @pol_contract_transactions */	
-
-	/** @submitAddLiquidityTx
-	 *  every 6 hours, try adding liquidity (it can be called once a day)
-	 */
-	setInterval(() => submitAddLiquidityTx(), config.one_minute * 360 );
 
 	/** @claimgbmvote
 	 *  every 6 hours + 1 minute, try claiming voting rewards from POL contract
@@ -44,6 +39,10 @@ const runApp = async () => {
 	 */
 	setInterval(() => clearexpired(), config.one_minute );	
 
+	/** @rebalance 
+	 * 	rebalances the lswax/wax buckets in the pol contract 
+	 */
+	setInterval(() => transact(config.contracts.pol_contract, "rebalance", {}), config.one_minute * 230 );
 
 
 	/** @dapp_contract_transactions */		
@@ -59,20 +58,20 @@ const runApp = async () => {
 	 */
 	setInterval(() => claimrefund(config.contracts.dapp_contract), config.one_minute * 60 );	
 
-	/** @distribute
-	 *  distribute any pending revenue to stakers/POL/ecosystem etc
+	/** @createfarms
+	 *  every 12 hours, try creating incentives on alcor
 	 */
-	setInterval(() => distribute(), config.one_minute * 60 );	
+	setInterval(() => createfarms(config.contracts.dapp_contract), config.one_minute * 60 * 12 );
+
+	/** @compound_lswax
+	 *  every 5 minutes, compound lsWAX
+	 */
+	setInterval(() => compound_lswax(config.contracts.dapp_contract), config.one_minute * 5 );		
 
 	/** @reallocate 
 	 * 	when necessary, move unclaimed funds from redemption pool back to rental pool
 	 */
-	setInterval(() => transact(config.contracts.dapp_contract, "reallocate", {}), config.one_minute * 10 );	
-
-	/** @rebalance 
-	 * 	rebalances the lswax/wax buckets in the pol contract 
-	 */
-	setInterval(() => transact(config.contracts.pol_contract, "rebalance", {}), config.one_minute * 230 );		
+	setInterval(() => transact(config.contracts.dapp_contract, "reallocate", {}), config.one_minute * 10 );			
 
 	/** @stakeallcpu 
 	 * 	
@@ -81,9 +80,6 @@ const runApp = async () => {
 
 	/** @sync */
 	setInterval(() => sync(), config.one_minute - 5000 );	
-
-	/** @synctvl */
-	setInterval(() => transact(config.contracts.dapp_contract, "synctvl", {"caller": config.permission.wallet}), ( config.one_minute * 15 ) + 10000 );	
 
 	/** @unstakecpu 
 	 * 	

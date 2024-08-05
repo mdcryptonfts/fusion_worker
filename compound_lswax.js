@@ -2,7 +2,7 @@ const config = require('./config.json');
 const { Session } = require('@wharfkit/session');
 const { WalletPluginPrivateKey } = require('@wharfkit/wallet-plugin-privatekey')
 
-const distribute = async () => {
+const compound_lswax = async () => {
   let success = false;
 
   for (let endpoint of config.chain_api.endpoints) {
@@ -21,13 +21,12 @@ const distribute = async () => {
       const apiCallPromise = session.transact({
         actions: [{
           account: config.contracts.dapp_contract,
-          name: 'distribute',
+          name: 'compound',
           authorization: [{
             actor: config.permission.wallet,
             permission: config.permission.permission_name,
           }],
-          data: {
-          }
+          data: {}
         }]
       }, {
         blocksBehind: config.blocks_behind,
@@ -36,11 +35,11 @@ const distribute = async () => {
 
       const result = await Promise.race([apiCallPromise, new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), config.transaction_timeout))]);
 
-      console.log("\n\nsync submission successful");
+      console.log("\n\ncompound_lswax submission successful");
       success = true;
       return success;
     } catch (e) {
-      console.log(`error submitting sync: ${e}`);
+      console.log(`error submitting compound_lswax: ${e}`);
     }
   }
 
@@ -48,5 +47,5 @@ const distribute = async () => {
 };
 
 module.exports = {
-  distribute
+  compound_lswax
 };

@@ -2,7 +2,7 @@ const config = require('./config.json');
 const { Session } = require('@wharfkit/session');
 const { WalletPluginPrivateKey } = require('@wharfkit/wallet-plugin-privatekey')
 
-const submitAddLiquidityTx = async () => {
+const createfarms = async () => {
   let success = false;
 
   for (let endpoint of config.chain_api.endpoints) {
@@ -20,14 +20,13 @@ const submitAddLiquidityTx = async () => {
 
       const apiCallPromise = session.transact({
         actions: [{
-          account: config.contracts.pol_contract,
-          name: 'addliquidity',
+          account: config.contracts.dapp_contract,
+          name: 'createfarms',
           authorization: [{
             actor: config.permission.wallet,
             permission: config.permission.permission_name,
           }],
-          data: {
-          }
+          data: {}
         }]
       }, {
         blocksBehind: config.blocks_behind,
@@ -36,11 +35,11 @@ const submitAddLiquidityTx = async () => {
 
       const result = await Promise.race([apiCallPromise, new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), config.transaction_timeout))]);
 
-      console.log("\n\naddliquidity submission successful");
+      console.log("\n\ncreate_farms submission successful");
       success = true;
       return success;
     } catch (e) {
-      console.log(`error submitting addliquidity: ${e}`);
+      console.log(`error submitting create_farms: ${e}`);
     }
   }
 
@@ -48,5 +47,5 @@ const submitAddLiquidityTx = async () => {
 };
 
 module.exports = {
-  submitAddLiquidityTx
+  createfarms
 };
