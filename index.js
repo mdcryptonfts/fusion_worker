@@ -3,7 +3,7 @@ const { claimgbmvote, claimgbmvoteFromDappContract } = require('./claimgbmvote')
 const { claimrefund } = require('./claimrefund');
 const { clearexpired } = require('./clearexpired');
 const { sync } = require('./sync');
-const { createfarms } = require('./createfarms');
+const { createfarms } = require('./create_farms');
 const { compound_lswax } = require('./compound_lswax');
 const { transact } = require('./transact');
 
