@@ -79,7 +79,7 @@ const runApp = async () => {
 	setInterval(() => transact(config.contracts.dapp_contract, "stakeallcpu", {}), config.one_minute * 5 );	
 
 	/** @sync */
-	setInterval(() => sync(), config.one_minute - 5000 );	
+	setInterval(() => sync(), config.one_minute * 30 );	
 
 	/** @unstakecpu 
 	 * 	
