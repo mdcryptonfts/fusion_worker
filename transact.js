@@ -40,9 +40,10 @@ const transact = async (contract, action, data) => {
       return success;
     } catch (e) {
       console.log(`error submitting ${action}: ${e}`);
-      if(e?.indexOf("assertion failure with message") > -1){
-        return false;
-      }      
+      const errorMessage = String(e);
+      if (errorMessage.indexOf("assertion failure with message") > -1) {
+          return false;
+      }     
     }
   }
 
