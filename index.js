@@ -1,8 +1,6 @@
 const config = require('./config.json');
 const { claimrefund } = require('./claimrefund');
-const { clearexpired } = require('./clearexpired');
 const { createfarms } = require('./create_farms');
-const { compound_lswax } = require('./compound_lswax');
 const { transact } = require('./transact');
 
 const runApp = async () => {
@@ -61,10 +59,10 @@ const runApp = async () => {
 	 */
 	setInterval(() => createfarms(config.contracts.dapp_contract), config.one_minute * 60 * 12 );
 
-	/** @compound_lswax
+	/** @compound
 	 *  every 5 minutes, compound lsWAX
 	 */
-	setInterval(() => compound_lswax(config.contracts.dapp_contract), config.one_minute * 5 );		
+	setInterval(() => transact(config.contracts.dapp_contract, "compound", {}), config.one_minute * 5 );		
 
 	/** @reallocate 
 	 * 	when necessary, move unclaimed funds from redemption pool back to rental pool
