@@ -1,8 +1,6 @@
 const config = require('./config.json');
-const { claimgbmvote, claimgbmvoteFromDappContract } = require('./claimgbmvote');
 const { claimrefund } = require('./claimrefund');
 const { clearexpired } = require('./clearexpired');
-const { sync } = require('./sync');
 const { createfarms } = require('./create_farms');
 const { compound_lswax } = require('./compound_lswax');
 const { transact } = require('./transact');
@@ -25,7 +23,7 @@ const runApp = async () => {
 	/** @claimgbmvote
 	 *  every 6 hours + 1 minute, try claiming voting rewards from POL contract
 	 */
-	setInterval(() => claimgbmvote(), config.one_minute * 360 );	
+	setInterval(() => transact(config.contracts.pol_contract, "claimgbmvote", {}), config.one_minute * 360 );
 
 	/** @claimrefund
 	 *  every 1 hour try claiming any refunds from the POL contract
@@ -37,7 +35,7 @@ const runApp = async () => {
 	 *  needs to run every minute to make sure all expired orders are cleared
 	 * 	in the 5 minute window
 	 */
-	setInterval(() => clearexpired(), config.one_minute );	
+	setInterval(() => transact(config.contracts.pol_contract, "clearexpired", {limit: 1000}), config.one_minute);
 
 	/** @rebalance 
 	 * 	rebalances the lswax/wax buckets in the pol contract 
@@ -47,11 +45,11 @@ const runApp = async () => {
 
 	/** @dapp_contract_transactions */		
 
-	/** @claimgbmvoteFromDappContract
+	/** @claimgbmvote
 	 */
-	setInterval(() => claimgbmvoteFromDappContract(config.cpu_contracts.contract1), config.one_minute - 3000 );
-	setInterval(() => claimgbmvoteFromDappContract(config.cpu_contracts.contract2), config.one_minute - 2000 );
-	setInterval(() => claimgbmvoteFromDappContract(config.cpu_contracts.contract3), config.one_minute - 1000);	
+	setInterval(() => transact(config.contracts.dapp_contract, "claimgbmvote", {cpu_contract: config.cpu_contracts.contract1}), config.one_minute - 3000 );
+	setInterval(() => transact(config.contracts.dapp_contract, "claimgbmvote", {cpu_contract: config.cpu_contracts.contract2}), config.one_minute - 2000 );
+	setInterval(() => transact(config.contracts.dapp_contract, "claimgbmvote", {cpu_contract: config.cpu_contracts.contract3}), config.one_minute - 1000 );
 
 	/** @claimrefunds
 	 *  every 1 hour try claiming any refunds from the cpu contracts (via dapp contract)
@@ -79,7 +77,7 @@ const runApp = async () => {
 	setInterval(() => transact(config.contracts.dapp_contract, "stakeallcpu", {}), config.one_minute * 5 );	
 
 	/** @sync */
-	setInterval(() => sync(), config.one_minute * 30 );	
+	setInterval(() => transact(config.contracts.dapp_contract, "sync", {caller: config.permission.wallet}), config.one_minute * 30 );
 
 	/** @unstakecpu 
 	 * 	
