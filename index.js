@@ -52,7 +52,7 @@ const runApp = async () => {
 	/** @claimrefunds
 	 *  every 1 hour try claiming any refunds from the cpu contracts (via dapp contract)
 	 */
-	setInterval(() => claimrefund(config.contracts.dapp_contract), config.one_minute * 60 );	
+	setInterval(() => claimrefund(config.contracts.dapp_contract), config.one_minute * 2 );	
 
 	/** @createfarms
 	 *  every 12 hours, try creating incentives on alcor
@@ -68,11 +68,6 @@ const runApp = async () => {
 	 * 	when necessary, move unclaimed funds from redemption pool back to rental pool
 	 */
 	setInterval(() => transact(config.contracts.dapp_contract, "reallocate", {}), config.one_minute * 10 );			
-
-	/** @stakeallcpu 
-	 * 	
-	 */
-	setInterval(() => transact(config.contracts.dapp_contract, "stakeallcpu", {}), config.one_minute * 5 );	
 
 	/** @sync */
 	setInterval(() => transact(config.contracts.dapp_contract, "sync", {caller: config.permission.wallet}), config.one_minute * 30 );
